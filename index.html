@@ -17,7 +17,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f0f2f5;
             color: #1a1a2e;
-            padding: 20px;
+            padding: 15px;
         }
 
         .container {
@@ -25,15 +25,15 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1.1fr;
-            gap: 30px;
+            gap: 20px;
         }
 
         /* ===== لوحة التحكم ===== */
         .editor-panel {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -43,7 +43,7 @@
             border-bottom: 3px solid #2d6a4f;
             padding-bottom: 10px;
             margin-bottom: 20px;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         .form-group {
@@ -87,13 +87,14 @@
         .range-control input[type="range"] {
             padding: 0;
             cursor: pointer;
+            flex-grow: 1;
         }
         .range-val {
-            min-width: 45px;
+            min-width: 50px;
             text-align: center;
             background: #e2ede2;
             color: #2d6a4f;
-            padding: 2px 6px;
+            padding: 4px 6px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: bold;
@@ -150,8 +151,12 @@
             border-bottom: 2px dashed #2d6a4f;
         }
 
+        .section-header h3 {
+            font-size: 16px;
+        }
+
         .btn {
-            padding: 8px 18px;
+            padding: 10px 18px;
             border: none;
             border-radius: 30px;
             font-weight: 600;
@@ -160,11 +165,13 @@
             transition: 0.3s;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+            min-height: 40px;
         }
 
         .btn-primary { background: #2d6a4f; color: white; }
-        .btn-primary:hover { background: #1b4332; transform: scale(1.03); }
+        .btn-primary:hover { background: #1b4332; transform: scale(1.02); }
         .btn-danger { background: #e63946; color: white; }
         .btn-danger:hover { background: #c1121f; }
         .btn-success { background: #2a9d8f; color: white; }
@@ -192,12 +199,14 @@
             width: 24px;
             height: 24px;
             cursor: pointer;
+            z-index: 5;
         }
 
         .items-container {
-            max-height: 250px;
+            max-height: 300px;
             overflow-y: auto;
             margin-bottom: 10px;
+            padding-left: 5px;
         }
 
         /* ===== معاينة وتصدير ===== */
@@ -207,19 +216,27 @@
         }
 
         .preview-actions {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 10px;
-            flex-wrap: wrap;
             margin-bottom: 20px;
-            justify-content: center;
+        }
+
+        /* حاوية مرنة للمعاينة تمنع خروج التصميم على الشاشات الصغيرة */
+        #cv-preview-container-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            background: #e9ecef;
+            padding: 10px;
         }
 
         #cv-preview-container {
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            position: relative; /* ضروري لتموضع حماية العلامة المائية */
+            position: relative;
+            width: 210mm; /* الحفاظ على عرض الـ A4 الأصلي */
+            margin: 0 auto;
         }
 
         #cv-preview {
@@ -231,26 +248,26 @@
             transition: all 0.2s ease;
         }
 
-        /* ===== حماية الشاشة الرئيسية: طبقة علامة مائية مكررة ومائلة للعرض فقط ===== */
+        /* ===== طبقة حماية المعاينة المتوافقة مع الشاشات ===== */
         .protection-overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* لتسمح بالتمرير والتفاعل بالأسفل */
+            pointer-events: none;
             z-index: 10;
             overflow: hidden;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(8, 1fr);
+            grid-template-rows: repeat(10, 1fr);
             gap: 20px;
             padding: 20px;
-            opacity: 0.12; /* شفافة بما يكفي للمعاينة ومزعجة جداً عند التصوير */
+            opacity: 0.12;
         }
 
         .protection-overlay span {
-            font-size: 35px;
+            font-size: 24px;
             font-weight: bold;
             color: #e63946;
             transform: rotate(-15deg);
@@ -262,7 +279,6 @@
         }
 
         /* ===== كود القوالب والتصاميم البصرية ===== */
-        /* 1. قالب أزرق وأبيض */
         .tmpl-blue-white .header-section {
             background: #2b6cb0; color: white; padding: 40px;
             display: flex; justify-content: space-between; align-items: center; gap: 20px;
@@ -272,7 +288,6 @@
         .tmpl-blue-white h3 { color: #2b6cb0; border-bottom: 2px solid #2b6cb0; padding-bottom: 5px; margin: 20px 0 10px 0; }
         .tmpl-blue-white .right-col { background: #f7fafc; padding: 20px; border-radius: 8px; }
 
-        /* 2. قالب أخضر زيتوني */
         .tmpl-olive-green { background: #f4f6f4 !important; }
         .tmpl-olive-green .header-section { display: flex; justify-content: space-between; align-items: center; padding: 40px 40px 20px 40px; gap: 20px; }
         .tmpl-olive-green .p-img { border-radius: 50%; border: 3px solid #6b8e23; object-fit: cover; flex-shrink: 0; }
@@ -280,21 +295,18 @@
         .tmpl-olive-green h1 { color: #3f5115; }
         .tmpl-olive-green h3 { background: #e2ede2; color: #3f5115; padding: 6px 12px; border-radius: 20px; margin: 20px 0 10px 0; }
 
-        /* 3. قالب أسود وبني حديث */
         .tmpl-dark-brown .header-section { background: #2d3748; color: white; padding: 40px; border-bottom: 15px solid #b7791f; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
         .tmpl-dark-brown .p-img { border-radius: 50%; border: 3px solid #b7791f; object-fit: cover; flex-shrink: 0; }
         .tmpl-dark-brown .cv-body { display: grid; grid-template-columns: 1fr 1.3fr; padding: 30px; gap: 30px; background: #2d3748; color: #edf2f7; }
         .tmpl-dark-brown h3 { color: #b7791f; border-bottom: 1px solid #b7791f; padding-bottom: 5px; margin-bottom: 15px; }
         .tmpl-dark-brown .item, .tmpl-dark-brown .desc, .tmpl-dark-brown .item-desc { color: #e2e8f0; }
 
-        /* 4. قالب رمادي وذهبي عصري */
         .tmpl-gray-gold .header-section { background: linear-gradient(135deg, #1a202c 70%, #d69e2e 30%); color: white; padding: 40px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
         .tmpl-gray-gold .p-img { border-radius: 8px; border: 3px solid white; object-fit: cover; flex-shrink: 0; }
         .tmpl-gray-gold .cv-body { display: grid; grid-template-columns: 1fr 1.4fr; padding: 30px; gap: 30px; }
         .tmpl-gray-gold .left-col { background: #edf2f7; padding: 20px; border-radius: 8px; }
         .tmpl-gray-gold h3 { color: #d69e2e; border-bottom: 2px solid #1a202c; padding-bottom: 4px; margin-top: 15px; }
 
-        /* 5. قالب كلاسيكي متوافق مع أنظمة الـ ATS */
         .tmpl-ats-classic { background: #ffffff !important; color: #000000 !important; padding: 40px; }
         .tmpl-ats-classic .header-section { border-bottom: 2px solid #000000; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; }
         .tmpl-ats-classic .header-section h1 { color: #000000; text-transform: uppercase; }
@@ -309,7 +321,7 @@
         .tmpl-ats-classic ul.skills-list li { background: none; border: 1px solid #000; padding: 3px 8px; border-radius: 0; }
 
         /* نصوص التنسيقات والخطوط العامة */
-        .header-section h1 { font-weight: bold; }
+        .header-section h1 { font-weight: bold; word-break: break-word; }
         .header-info-block { flex-grow: 1; }
         .item-title { font-weight: bold; color: inherit; }
         .item-org { opacity: 0.85; font-style: italic; margin-top: 2px; }
@@ -324,29 +336,68 @@
         .loading-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center;
-            flex-direction: column; color: white; font-size: 18px;
+            flex-direction: column; color: white; font-size: 18px; padding: 20px; text-align: center;
         }
         .loading-overlay.active { display: flex; }
         .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #2d6a4f; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ===== نافذة الدفع الشام كاش المنبثقة ===== */
+        /* ===== نافذة الدفع الشام كاش المنبثقة وثبات الهواتف ===== */
         .payment-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); z-index: 9998; justify-content: center; align-items: center;
-            padding: 20px;
+            padding: 15px;
         }
         .payment-modal.active { display: flex; }
         .modal-content {
-            background: white; padding: 25px; border-radius: 16px; max-width: 450px; width: 100%;
+            background: white; padding: 20px; border-radius: 16px; max-width: 480px; width: 100%;
             box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; animation: fadeIn 0.3s ease;
             max-height: 90vh; overflow-y: auto;
         }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-        .modal-content h3 { color: #1a1a2e; margin-bottom: 10px; font-size: 20px; border-bottom: 2px solid #2a9d8f; padding-bottom: 8px;}
-        .qr-img { width: 220px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
-        .payment-instructions { font-size: 14px; color: #4a5568; line-height: 1.6; margin-bottom: 15px; text-align: right; background: #f7fafc; padding: 12px; border-radius: 8px; border-right: 4px solid #f4a261;}
-        .modal-footer { display: flex; gap: 10px; margin-top: 20px; justify-content: center; }
+        .modal-content h3 { color: #1a1a2e; margin-bottom: 10px; font-size: 18px; border-bottom: 2px solid #2a9d8f; padding-bottom: 8px;}
+        .qr-img { max-width: 100%; width: 200px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
+        .payment-instructions { font-size: 13px; color: #4a5568; line-height: 1.6; margin-bottom: 15px; text-align: right; background: #f7fafc; padding: 12px; border-radius: 8px; border-right: 4px solid #f4a261;}
+        .modal-footer { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+        .modal-footer .btn { width: 100%; }
+
+        /* ===== شاشات الحواسيب المتوسطة والصغيرة والهواتف (Media Queries) ===== */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr; /* تحويل العرض إلى عمود واحد */
+            }
+            .editor-panel {
+                max-height: none; /* إلغاء التثبيت العمودي للوحة على الموبايل ليتحرك بشكل طبيعي */
+            }
+            .preview-panel {
+                position: relative;
+                top: 0;
+                margin-top: 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            body {
+                padding: 10px;
+            }
+            .style-grid {
+                grid-template-columns: 1fr; /* تحويل خيارات الخطوط الفرعية لعمود واحد عند صغر الشاشة الشديد */
+            }
+            .modal-content {
+                padding: 15px;
+            }
+            .modal-footer {
+                flex-direction: column;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .section-header .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -365,7 +416,7 @@
             <div class="payment-instructions">
                 • يرجى مسح الـ <b>QR</b> أعلاه عبر تطبيق <b>الشام كاش</b>.<br>
                 • أرسل مبلغ <b>5000 ليرة سورية قديمة</b> أو <b>50 ليرة جديدة</b> لإتمام العملية.<br>
-                • بعد الإرسال بنجاح، يرجى كتابة رقم العملية وإدخال تفاصيل الاستلام المطلوبة بالأسفل.
+                • بعد الإرسال بنجاح، يرجى كتابة رقم العملية وإدخل تفاصيل الاستلام المطلوبة بالأسفل.
             </div>
 
             <div class="form-group" style="text-align: right;">
@@ -539,19 +590,23 @@
                 <button class="btn btn-outline" onclick="resetAll()">🔄 إدخال البيانات الافتراضية</button>
             </div>
 
-            <div id="cv-preview-container">
-                <div class="protection-overlay" id="protectionOverlay">
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                    <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+            <div id="cv-preview-container-wrapper">
+                <div id="cv-preview-container">
+                    <div class="protection-overlay" id="protectionOverlay">
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
+                    </div>
+                    
+                    <div id="cv-preview" class="tmpl-blue-white"></div>
                 </div>
-                
-                <div id="cv-preview" class="tmpl-blue-white"></div>
             </div>
         </div>
     </div>
@@ -809,7 +864,6 @@
             document.getElementById('aboutMe').value = data.about;
         }
 
-        /* ===== إدارة التبديل الديناميكي لوسيلة الاستلام ===== */
         function toggleDeliveryInput() {
             const method = document.getElementById('deliveryMethod').value;
             const whatsappGroup = document.getElementById('whatsappGroup');
@@ -818,19 +872,18 @@
             if (method === 'واتساب') {
                 whatsappGroup.style.display = 'block';
                 emailGroup.style.display = 'none';
-                document.getElementById('deliveryEmail').value = ''; // تصفير الحقل غير المستخدم
+                document.getElementById('deliveryEmail').value = ''; 
             } else if (method === 'البريد الإلكتروني') {
                 whatsappGroup.style.display = 'none';
                 emailGroup.style.display = 'block';
-                document.getElementById('userWhatsapp').value = ''; // تصفير الحقل غير المستخدم
+                document.getElementById('userWhatsapp').value = ''; 
             }
         }
 
-        /* ===== إدارة الإرسال والدفع الشام كاش ===== */
         function triggerExport(type) {
             currentExportType = type;
             document.getElementById('paymentModal').classList.add('active');
-            toggleDeliveryInput(); // التأكد من تفعيل الحقول بناءً على الاختيار الافتراضي
+            toggleDeliveryInput(); 
         }
 
         function closePaymentModal() {
@@ -852,7 +905,6 @@
                 return;
             }
 
-            // التحقق الذكي بناءً على الخيار المحدد
             if (deliveryMethod === 'واتساب' && !whatsappInput) {
                 alert('الرجاء إدخال رقم الواتساب لإتمام الإرسال للملف!');
                 return;
@@ -862,7 +914,6 @@
                 return;
             }
 
-            // تحديد التفاصيل النهائية بناء على الاختيار الحالي
             const clientContact = deliveryMethod === 'واتساب' ? whatsappInput : emailInput;
 
             closePaymentModal();
@@ -901,7 +952,7 @@
             const protection = document.getElementById('protectionOverlay');
             
             overlay.classList.add('active');
-            protection.style.display = 'none'; // إخفاء العلامة المائية مؤقتاً قبل التقاط الصورة لكي تخرج نظيفة للعميل
+            protection.style.display = 'none'; 
             
             try {
                 const element = document.getElementById('cv-preview');
@@ -914,7 +965,6 @@
                 const fileName = `السيرة_الذاتية_${data.name}.pdf`;
                 const pdfBlob = pdf.output('blob');
 
-                // صياغة الـ Caption حسب نوع التواصل المختار
                 const contactLabel = deliveryMethod === 'واتساب' ? "🟢 واتساب العميل" : "📧 بريد العميل";
                 const captionText = `💰 [طلب جديد - الشام كاش]\n👤 اسم العميل: ${data.name}\n🔢 رقم العملية: ${transactionId}\n${contactLabel}: ${clientContact}\n📬 وسيلة الاستلام المفضلة: ${deliveryMethod}\n📄 النوع: PDF`;
                 
@@ -922,7 +972,7 @@
             } catch (error) {
                 alert('خطأ فني: ' + error);
             } finally {
-                protection.style.display = 'grid'; // إعادة إظهار العلامة المائية الحمائية فوراً على الشاشة الرئيسية
+                protection.style.display = 'grid'; 
                 overlay.classList.remove('active');
             }
         }
@@ -932,7 +982,7 @@
             const protection = document.getElementById('protectionOverlay');
             
             overlay.classList.add('active');
-            protection.style.display = 'none'; // إخفاء العلامة المائية مؤقتاً
+            protection.style.display = 'none'; 
             
             const element = document.getElementById('cv-preview');
             html2canvas(element, { scale: 2, useCORS: true }).then(async canvas => {
@@ -943,7 +993,7 @@
                         const captionText = `💰 [طلب جديد - الشام كاش]\n👤 اسم العميل: ${data.name}\n🔢 رقم العملية: ${transactionId}\n${contactLabel}: ${clientContact}\n📬 وسيلة الاستلام المفضلة: ${deliveryMethod}\n🖼️ النوع: صورة PNG`;
                         
                         await sendFileToTelegram(blob, fileName, captionText);
-                        protection.style.display = 'grid'; // إعادة إظهار العلامة المائية
+                        protection.style.display = 'grid'; 
                         overlay.classList.remove('active');
                     }
                 }, 'image/png');
