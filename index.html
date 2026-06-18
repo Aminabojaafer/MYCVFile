@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منشئ السيرة الذاتية الاحترافي - التحكم الكامل بالخطوط والمظهر</title>
+    <title>منشئ السيرة الذاتية الاحترافي - متوافق تماماً مع الجوال</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -17,23 +17,25 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f0f2f5;
             color: #1a1a2e;
-            padding: 15px;
+            padding: 20px;
         }
 
+        /* التصميم الافتراضي للشاشات الكبيرة (كمبيوتر/تابلت عريض) */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1.1fr;
-            gap: 20px;
+            gap: 24px;
+            align-items: start;
         }
 
         /* ===== لوحة التحكم ===== */
         .editor-panel {
             background: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
             max-height: 90vh;
             overflow-y: auto;
         }
@@ -42,18 +44,18 @@
             color: #1a1a2e;
             border-bottom: 3px solid #2d6a4f;
             padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 20px;
+            margin-bottom: 25px;
+            font-size: 22px;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
             font-weight: 600;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
             font-size: 13px;
             color: #2d6a4f;
         }
@@ -62,8 +64,8 @@
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 10px 14px;
-            border: 2px solid #e0e0e0;
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
             border-radius: 10px;
             font-size: 14px;
             transition: 0.3s;
@@ -78,7 +80,6 @@
             box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
         }
 
-        /* تنسيق أشرطة التحكم بالحجم */
         .range-control {
             display: flex;
             align-items: center;
@@ -90,11 +91,11 @@
             flex-grow: 1;
         }
         .range-val {
-            min-width: 50px;
+            min-width: 55px;
             text-align: center;
             background: #e2ede2;
             color: #2d6a4f;
-            padding: 4px 6px;
+            padding: 4px 8px;
             border-radius: 6px;
             font-size: 12px;
             font-weight: bold;
@@ -106,9 +107,9 @@
             gap: 10px;
             margin-bottom: 15px;
             background: #f8f9fa;
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-radius: 10px;
-            border: 1px solid #e0e0e0;
+            border: 1px solid #e2e8f0;
         }
         
         .checkbox-group input {
@@ -116,36 +117,34 @@
             cursor: pointer;
         }
 
-        /* لوحة خيارات التحكم المتقدمة بالمظهر والخطوط */
         .style-options-panel {
             background: #f4f7f6;
-            padding: 15px;
+            padding: 18px;
             border-radius: 12px;
             border: 2px solid #2d6a4f;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .font-dashboard-title {
             font-size: 14px;
             font-weight: bold;
             color: #1b4332;
-            margin-bottom: 10px;
-            padding-bottom: 4px;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
             border-bottom: 1px solid #cbd5e0;
         }
 
         .style-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 5px;
+            gap: 14px;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 25px;
+            margin-top: 30px;
             margin-bottom: 15px;
             padding-bottom: 8px;
             border-bottom: 2px dashed #2d6a4f;
@@ -156,22 +155,22 @@
         }
 
         .btn {
-            padding: 10px 18px;
+            padding: 12px 20px;
             border: none;
             border-radius: 30px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
             cursor: pointer;
             transition: 0.3s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 6px;
-            min-height: 40px;
+            gap: 8px;
+            min-height: 44px;
         }
 
         .btn-primary { background: #2d6a4f; color: white; }
-        .btn-primary:hover { background: #1b4332; transform: scale(1.02); }
+        .btn-primary:hover { background: #1b4332; }
         .btn-danger { background: #e63946; color: white; }
         .btn-danger:hover { background: #c1121f; }
         .btn-success { background: #2a9d8f; color: white; }
@@ -183,15 +182,15 @@
             background: #f8f9fa;
             padding: 15px;
             border-radius: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             border-right: 4px solid #2d6a4f;
             position: relative;
         }
 
         .item-card .remove-btn {
             position: absolute;
-            top: 8px;
-            left: 8px;
+            top: 10px;
+            left: 10px;
             background: #e63946;
             color: white;
             border: none;
@@ -203,13 +202,12 @@
         }
 
         .items-container {
-            max-height: 300px;
+            max-height: 320px;
             overflow-y: auto;
             margin-bottom: 10px;
-            padding-left: 5px;
         }
 
-        /* ===== معاينة وتصدير ===== */
+        /* ===== لوحة المعاينة والتصدير ===== */
         .preview-panel {
             position: sticky;
             top: 20px;
@@ -217,26 +215,32 @@
 
         .preview-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
             margin-bottom: 20px;
         }
 
-        /* حاوية مرنة للمعاينة تمنع التفاف التصميم على الهواتف */
+        /* الحاوية الخارجية للمعاينة المتجاوبة */
         #cv-preview-container-wrapper {
             width: 100%;
-            overflow-x: auto;
-            border-radius: 16px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
             background: #e9ecef;
-            padding: 10px;
+            padding: 20px 10px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden; /* يمنع ظهور السكرول الخارجي المزعج بالجوال */
+            display: flex;
+            justify-content: center;
+            align-items: start;
         }
 
+        /* الحاوية الداخلية الحاضنة لأبعاد الـ A4 */
         #cv-preview-container {
             background: white;
             position: relative;
-            width: 210mm; /* الحفاظ على المقاس القياسي للـ A4 */
-            margin: 0 auto;
+            width: 210mm; 
+            min-height: 297mm;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transform-origin: top center; /* نقطة الارتكاز لعمل الـ Scale التلقائي */
         }
 
         #cv-preview {
@@ -245,7 +249,6 @@
             position: relative;
             background: white;
             color: #333;
-            transition: all 0.2s ease;
         }
 
         /* ===== طبقة حماية المعاينة ===== */
@@ -267,7 +270,7 @@
         }
 
         .protection-overlay span {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             color: #e63946;
             transform: rotate(-15deg);
@@ -278,7 +281,7 @@
             user-select: none;
         }
 
-        /* ===== كود القوالب والتصاميم البصرية ===== */
+        /* ===== أنماط وقوالب التصاميم (قوالب الـ CV) ===== */
         .tmpl-blue-white .header-section {
             background: #2b6cb0; color: white; padding: 40px;
             display: flex; justify-content: space-between; align-items: center; gap: 20px;
@@ -320,7 +323,6 @@
         .tmpl-ats-classic ul.skills-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .tmpl-ats-classic ul.skills-list li { background: none; border: 1px solid #000; padding: 3px 8px; border-radius: 0; }
 
-        /* نصوص التنسيقات والخطوط العامة */
         .header-section h1 { font-weight: bold; word-break: break-word; }
         .header-info-block { flex-grow: 1; }
         .item-title { font-weight: bold; color: inherit; }
@@ -342,7 +344,7 @@
         .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #2d6a4f; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ===== نافذة الدفع والتجاوب الخاص بها ===== */
+        /* نافذة الدفع */
         .payment-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); z-index: 9998; justify-content: center; align-items: center;
@@ -356,45 +358,50 @@
         }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .modal-content h3 { color: #1a1a2e; margin-bottom: 10px; font-size: 18px; border-bottom: 2px solid #2a9d8f; padding-bottom: 8px;}
-        .qr-img { max-width: 100%; width: 190px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
+        .qr-img { max-width: 100%; width: 180px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
         .payment-instructions { font-size: 13px; color: #4a5568; line-height: 1.6; margin-bottom: 15px; text-align: right; background: #f7fafc; padding: 12px; border-radius: 8px; border-right: 4px solid #f4a261;}
         .modal-footer { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .modal-footer .btn { width: 100%; }
 
         /* ========================================================= */
-        /* ============ استعلامات التوافق للهواتف (Media Queries) =========== */
+        /* ========== تعديلات وتنسيقات الجوال الحقيقية (100% Mobile) ========== */
         /* ========================================================= */
         @media (max-width: 1024px) {
             .container {
-                grid-template-columns: 1fr; /* إلغاء تقسيم الشاشة إلى عمودين وتحويلها إلى صف واحد عمودي */
+                grid-template-columns: 1fr; /* إلغاء نظام العمودين وتكديس العناصر عمودياً */
             }
+
+            /* جعل لوحة التحكم والخيارات في الأعلى تماماً */
             .editor-panel {
-                max-height: none; /* جعل ارتفاع لوحة التحكم مرناً وليس ثابتاً في الجوال */
+                order: 1; 
+                max-height: none; /* إيقاف السكرول الداخلي لتسهيل التصفح كصفحة كاملة */
+                padding: 15px;
             }
+
+            /* جعل المعاينة في الأسفل تماماً تلي الخيارات مباشرة */
             .preview-panel {
+                order: 2;
                 position: relative;
                 top: 0;
-                margin-top: 15px;
+                margin-top: 10px;
             }
-        }
 
-        @media (max-width: 576px) {
-            body {
-                padding: 10px; /* تقليل الهوامش الخارجية لتوفير مساحة في الشاشات الصغيرة */
-            }
             .style-grid {
-                grid-template-columns: 1fr; /* تحويل الترتيب الشبكي لعناصر التحكم بالخطوط إلى عمود منفرد مريح */
+                grid-template-columns: 1fr; /* تحويل لوحة تحكم المظهر لصف واحد مريح للمس */
             }
+
             .section-header {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: 12px;
             }
+
             .section-header .btn {
-                width: 100%; /* جعل زر الإضافة يأخذ العرض الكامل للمس أسهل */
+                width: 100%; /* تمديد أزرار إضافة الأقسام لتغطي العرض البرمجي الكامل */
             }
+
             .preview-actions {
-                grid-template-columns: 1fr; /* ترتيب أزرار التصدير تحت بعضها البعض على الهواتف ضيقة العرض */
+                grid-template-columns: 1fr; /* أزرار التحميل تحت بعضها لسهولة النقر بالأصابع */
             }
         }
     </style>
@@ -403,7 +410,7 @@
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <div id="loadingText">جاري معالجة المستند ...</div>
+        <div id="loadingText">جاري معالجة وتصدير المستند ...</div>
     </div>
 
     <div class="payment-modal" id="paymentModal">
@@ -449,8 +456,9 @@
     </div>
 
     <div class="container">
+        <!-- لوحة التحكم (الخيارات والأزرار) ستظهر أولاً في الجوال والكمبيوتر -->
         <div class="editor-panel">
-            <h2>📄 منشئ السير الذاتية - لوحة الخطوط الكاملة</h2>
+            <h2>📄 منشئ السير الذاتية - لوحة التحكم والمظهر</h2>
 
             <div class="style-options-panel">
                 <div class="form-group">
@@ -582,6 +590,7 @@
             <div class="items-container" id="certificationContainer"></div>
         </div>
 
+        <!-- لوحة المعاينة ستظهر بالأسفل في الجوال تالياً للوحة الخيارات -->
         <div class="preview-panel">
             <div class="preview-actions">
                 <button class="btn btn-success" onclick="triggerExport('pdf')">📄 استلام كـ PDF  </button>
@@ -592,8 +601,6 @@
             <div id="cv-preview-container-wrapper">
                 <div id="cv-preview-container">
                     <div class="protection-overlay" id="protectionOverlay">
-                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
@@ -621,6 +628,29 @@
         };
 
         let currentExportType = null; 
+
+        // دالة ذكية تقوم بتصغير المعاينة ديناميكياً لتناسب شاشة الجوال بشكل مثالي وتلقائي
+        function adjustMobileScale() {
+            const wrapper = document.getElementById('cv-preview-container-wrapper');
+            const container = document.getElementById('cv-preview-container');
+            if(!wrapper || !container) return;
+
+            const wrapperWidth = wrapper.offsetWidth - 20; // حساب المساحة الفعلية المتاحة للشاشة بدون الهوامش
+            const targetWidth = 793; // عرض الـ A4 بالبكسل التقريبي (210mm)
+
+            if (wrapperWidth < targetWidth) {
+                const scaleFactor = wrapperWidth / targetWidth;
+                container.style.transform = `scale(${scaleFactor})`;
+                wrapper.style.height = (container.offsetHeight * scaleFactor) + 'px'; // تعديل ارتفاع الحاوية الحاضنة منعاً للمساحات البيضاء الميتة
+            } else {
+                container.style.transform = 'none';
+                wrapper.style.height = 'auto';
+            }
+        }
+
+        // تشغيل ميزة المحاكاة والتجاوب الذكي عند تحميل الصفحة أو تغيير حجم الشاشة
+        window.addEventListener('resize', adjustMobileScale);
+        window.addEventListener('load', adjustMobileScale);
 
         function initDefaultData() {
             data.name = "أمين عبد القادر";
@@ -792,6 +822,9 @@
 
             htmlContext += `<div class="watermark">تم إنتاج هذا المستند بواسطة تكنوسوفت للحلول البرمجية - هاتف: +963981055535</div>`;
             previewEl.innerHTML = htmlContext;
+
+            // إطلاق التعديل الفوري للمقاس بمجرد حدوث أي تغيير في المدخلات والنصوص
+            setTimeout(adjustMobileScale, 50);
         }
 
         function renderEditorItems() {
@@ -949,10 +982,15 @@
         async function exportPDF(transactionId, clientContact, deliveryMethod) {
             const overlay = document.getElementById('loadingOverlay');
             const protection = document.getElementById('protectionOverlay');
+            const container = document.getElementById('cv-preview-container');
             
             overlay.classList.add('active');
             protection.style.display = 'none'; 
             
+            // تخزين التنسيق المؤقت للجوال لإعادته لاحقاً
+            const savedTransform = container.style.transform;
+            container.style.transform = 'none'; // إلغاء الـ Scale مؤقتاً لتوليد PDF بأبعاد دقيقة جداً وثابتة
+
             try {
                 const element = document.getElementById('cv-preview');
                 const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
@@ -971,6 +1009,7 @@
             } catch (error) {
                 alert('خطأ فني: ' + error);
             } finally {
+                container.style.transform = savedTransform; // إعادة مظهر التجاوب المريح على الجوال
                 protection.style.display = 'grid'; 
                 overlay.classList.remove('active');
             }
@@ -979,10 +1018,14 @@
         function exportImage(transactionId, clientContact, deliveryMethod) {
             const overlay = document.getElementById('loadingOverlay');
             const protection = document.getElementById('protectionOverlay');
+            const container = document.getElementById('cv-preview-container');
             
             overlay.classList.add('active');
             protection.style.display = 'none'; 
             
+            const savedTransform = container.style.transform;
+            container.style.transform = 'none'; // إلغاء الـ Scale مؤقتاً للتصدير بجودة ممتازة
+
             const element = document.getElementById('cv-preview');
             html2canvas(element, { scale: 2, useCORS: true }).then(async canvas => {
                 const fileName = `السيرة_الذاتية_${data.name}.png`;
@@ -992,11 +1035,13 @@
                         const captionText = `💰 [طلب جديد - الشام كاش]\n👤 اسم العميل: ${data.name}\n🔢 رقم العملية: ${transactionId}\n${contactLabel}: ${clientContact}\n📬 وسيلة الاستلام المفضلة: ${deliveryMethod}\n🖼️ النوع: صورة PNG`;
                         
                         await sendFileToTelegram(blob, fileName, captionText);
+                        container.style.transform = savedTransform;
                         protection.style.display = 'grid'; 
                         overlay.classList.remove('active');
                     }
                 }, 'image/png');
             }).catch(() => {
+                container.style.transform = savedTransform;
                 protection.style.display = 'grid';
                 overlay.classList.remove('active');
             });
