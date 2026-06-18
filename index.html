@@ -222,7 +222,7 @@
             margin-bottom: 20px;
         }
 
-        /* حاوية مرنة للمعاينة تمنع خروج التصميم على الشاشات الصغيرة */
+        /* حاوية مرنة للمعاينة تمنع التفاف التصميم على الهواتف */
         #cv-preview-container-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -235,7 +235,7 @@
         #cv-preview-container {
             background: white;
             position: relative;
-            width: 210mm; /* الحفاظ على عرض الـ A4 الأصلي */
+            width: 210mm; /* الحفاظ على المقاس القياسي للـ A4 */
             margin: 0 auto;
         }
 
@@ -248,7 +248,7 @@
             transition: all 0.2s ease;
         }
 
-        /* ===== طبقة حماية المعاينة المتوافقة مع الشاشات ===== */
+        /* ===== طبقة حماية المعاينة ===== */
         .protection-overlay {
             position: absolute;
             top: 0;
@@ -342,7 +342,7 @@
         .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #2d6a4f; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ===== نافذة الدفع الشام كاش المنبثقة وثبات الهواتف ===== */
+        /* ===== نافذة الدفع والتجاوب الخاص بها ===== */
         .payment-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); z-index: 9998; justify-content: center; align-items: center;
@@ -356,38 +356,34 @@
         }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .modal-content h3 { color: #1a1a2e; margin-bottom: 10px; font-size: 18px; border-bottom: 2px solid #2a9d8f; padding-bottom: 8px;}
-        .qr-img { max-width: 100%; width: 200px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
+        .qr-img { max-width: 100%; width: 190px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
         .payment-instructions { font-size: 13px; color: #4a5568; line-height: 1.6; margin-bottom: 15px; text-align: right; background: #f7fafc; padding: 12px; border-radius: 8px; border-right: 4px solid #f4a261;}
         .modal-footer { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .modal-footer .btn { width: 100%; }
 
-        /* ===== شاشات الحواسيب المتوسطة والصغيرة والهواتف (Media Queries) ===== */
+        /* ========================================================= */
+        /* ============ استعلامات التوافق للهواتف (Media Queries) =========== */
+        /* ========================================================= */
         @media (max-width: 1024px) {
             .container {
-                grid-template-columns: 1fr; /* تحويل العرض إلى عمود واحد */
+                grid-template-columns: 1fr; /* إلغاء تقسيم الشاشة إلى عمودين وتحويلها إلى صف واحد عمودي */
             }
             .editor-panel {
-                max-height: none; /* إلغاء التثبيت العمودي للوحة على الموبايل ليتحرك بشكل طبيعي */
+                max-height: none; /* جعل ارتفاع لوحة التحكم مرناً وليس ثابتاً في الجوال */
             }
             .preview-panel {
                 position: relative;
                 top: 0;
-                margin-top: 20px;
+                margin-top: 15px;
             }
         }
 
         @media (max-width: 576px) {
             body {
-                padding: 10px;
+                padding: 10px; /* تقليل الهوامش الخارجية لتوفير مساحة في الشاشات الصغيرة */
             }
             .style-grid {
-                grid-template-columns: 1fr; /* تحويل خيارات الخطوط الفرعية لعمود واحد عند صغر الشاشة الشديد */
-            }
-            .modal-content {
-                padding: 15px;
-            }
-            .modal-footer {
-                flex-direction: column;
+                grid-template-columns: 1fr; /* تحويل الترتيب الشبكي لعناصر التحكم بالخطوط إلى عمود منفرد مريح */
             }
             .section-header {
                 flex-direction: column;
@@ -395,7 +391,10 @@
                 gap: 10px;
             }
             .section-header .btn {
-                width: 100%;
+                width: 100%; /* جعل زر الإضافة يأخذ العرض الكامل للمس أسهل */
+            }
+            .preview-actions {
+                grid-template-columns: 1fr; /* ترتيب أزرار التصدير تحت بعضها البعض على الهواتف ضيقة العرض */
             }
         }
     </style>
@@ -411,7 +410,7 @@
         <div class="modal-content">
             <h3>💳 خطوة تأكيد الدفع والاستلام</h3>
             
-            <img src="photo_2026-06-18_17-42-14.jpg" class="qr-img" alt="الشام كاش QR أمين أحمد عبد القادر">
+            <img src="photo_2026-06-18_17-42-14.jpg" class="qr-img" alt="الشام كاش QR">
             
             <div class="payment-instructions">
                 • يرجى مسح الـ <b>QR</b> أعلاه عبر تطبيق <b>الشام كاش</b>.<br>
