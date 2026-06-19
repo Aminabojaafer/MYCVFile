@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <eta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منشئ السيرة الذاتية الاحترافي - التحكم الكامل بالخطوط والمظهر</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -78,7 +78,6 @@
             box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
         }
 
-        /* تنسيق أشرطة التحكم بالحجم */
         .range-control {
             display: flex;
             align-items: center;
@@ -116,7 +115,6 @@
             cursor: pointer;
         }
 
-        /* لوحة خيارات التحكم المتقدمة بالمظهر والخطوط */
         .style-options-panel {
             background: #f4f7f6;
             padding: 15px;
@@ -222,7 +220,6 @@
             margin-bottom: 20px;
         }
 
-        /* حاوية مرنة للمعاينة تمنع التفاف التصميم على الهواتف */
         #cv-preview-container-wrapper {
             width: 100%;
             overflow-x: auto;
@@ -235,17 +232,18 @@
         #cv-preview-container {
             background: white;
             position: relative;
-            width: 210mm; /* الحفاظ على المقاس القياسي للـ A4 */
+            width: 210mm; 
             margin: 0 auto;
         }
 
         #cv-preview {
-            width: 100%;
+            width: 210mm;
             min-height: 297mm;
             position: relative;
             background: white;
             color: #333;
             transition: all 0.2s ease;
+            word-wrap: break-word;
         }
 
         /* ===== طبقة حماية المعاينة ===== */
@@ -317,22 +315,20 @@
         .tmpl-ats-classic .item-title { display: flex; justify-content: space-between; }
         .tmpl-ats-classic .item-org { margin-bottom: 5px; }
         .tmpl-ats-classic .item-desc { line-height: 1.5; color: #222; }
-        .tmpl-ats-classic ul.skills-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .tmpl-ats-classic ul.skills-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; }
         .tmpl-ats-classic ul.skills-list li { background: none; border: 1px solid #000; padding: 3px 8px; border-radius: 0; }
 
-        /* نصوص التنسيقات والخطوط العامة */
         .header-section h1 { font-weight: bold; word-break: break-word; }
         .header-info-block { flex-grow: 1; }
-        .item-title { font-weight: bold; color: inherit; }
+        .item-title { font-weight: bold; color: inherit; display: flex; justify-content: space-between; }
         .item-org { opacity: 0.85; font-style: italic; margin-top: 2px; }
         .item-desc { margin-top: 4px; white-space: pre-line; line-height: 1.6; }
         ul.skills-list, ul.certs-list { list-style: none; padding: 0; }
         ul.skills-list li, ul.certs-list li { background: rgba(0,0,0,0.05); margin-bottom: 6px; padding: 6px 12px; border-radius: 4px; }
-        .tmpl-dark-brown ul.skills-list li { background: rgba(255,255,255,0.1); }
+        .tmpl-dark-brown ul.skills-list li, .tmpl-dark-brown ul.certs-list li { background: rgba(255,255,255,0.1); }
         
-        .watermark { padding: 15px; text-align: center; font-size: 11px; opacity: 0.6; border-top: 1px solid rgba(0,0,0,0.1); direction: ltr; }
+        .watermark { padding: 15px; text-align: center; font-size: 11px; opacity: 0.6; border-top: 1px solid rgba(0,0,0,0.1); direction: ltr; margin-top: 20px; }
 
-        /* الشاشات المنبثقة وأدوات التحميل */
         .loading-overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.6); z-index: 9999; justify-content: center; align-items: center;
@@ -342,7 +338,6 @@
         .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #2d6a4f; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ===== نافذة الدفع والتجاوب الخاص بها ===== */
         .payment-modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.7); z-index: 9998; justify-content: center; align-items: center;
@@ -361,41 +356,18 @@
         .modal-footer { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
         .modal-footer .btn { width: 100%; }
 
-        /* ========================================================= */
-        /* ============ استعلامات التوافق للهواتف (Media Queries) =========== */
-        /* ========================================================= */
         @media (max-width: 1024px) {
-            .container {
-                grid-template-columns: 1fr; /* إلغاء تقسيم الشاشة إلى عمودين وتحويلها إلى صف واحد عمودي */
-            }
-            .editor-panel {
-                max-height: none; /* جعل ارتفاع لوحة التحكم مرناً وليس ثابتاً في الجوال */
-            }
-            .preview-panel {
-                position: relative;
-                top: 0;
-                margin-top: 15px;
-            }
+            .container { grid-template-columns: 1fr; }
+            .editor-panel { max-height: none; }
+            .preview-panel { position: relative; top: 0; margin-top: 15px; }
         }
 
         @media (max-width: 576px) {
-            body {
-                padding: 10px; /* تقليل الهوامش الخارجية لتوفير مساحة في الشاشات الصغيرة */
-            }
-            .style-grid {
-                grid-template-columns: 1fr; /* تحويل الترتيب الشبكي لعناصر التحكم بالخطوط إلى عمود منفرد مريح */
-            }
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            .section-header .btn {
-                width: 100%; /* جعل زر الإضافة يأخذ العرض الكامل للمس أسهل */
-            }
-            .preview-actions {
-                grid-template-columns: 1fr; /* ترتيب أزرار التصدير تحت بعضها البعض على الهواتف ضيقة العرض */
-            }
+            body { padding: 10px; }
+            .style-grid { grid-template-columns: 1fr; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .section-header .btn { width: 100%; }
+            .preview-actions { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -403,15 +375,13 @@
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner"></div>
-        <div id="loadingText">جاري معالجة المستند ...</div>
+        <div id="loadingText">جاري معالجة المستند وتوليده بدقة عالية...</div>
     </div>
 
     <div class="payment-modal" id="paymentModal">
         <div class="modal-content">
             <h3>💳 خطوة تأكيد الدفع والاستلام</h3>
-            
             <img src="photo_2026-06-18_17-42-14.jpg" class="qr-img" alt="الشام كاش QR">
-            
             <div class="payment-instructions">
                 • يرجى مسح الـ <b>QR</b> أعلاه عبر تطبيق <b>الشام كاش</b>.<br>
                 • أرسل مبلغ <b>5000 ليرة سورية قديمة</b> أو <b>50 ليرة جديدة</b> لإتمام العملية.<br>
@@ -723,36 +693,49 @@
                 </div>
             `;
 
+            // البناء الديناميكي للمحتوى المشترك لضمان حقن مصفوفة (التعليم والدورات) بكل النماذج
+            let experienceHTML = '';
+            if(data.experience.length > 0) {
+                data.experience.forEach(exp => {
+                    experienceHTML += `
+                        <div style="margin-bottom:12px;">
+                            <div class="item-title"><span>${exp.title}</span> <span>${exp.year}</span></div>
+                            <div class="item-org">${exp.org}</div>
+                            <div class="item-desc">${exp.desc}</div>
+                        </div>`;
+                });
+            }
+
+            let educationHTML = '';
+            if(data.education.length > 0) {
+                data.education.forEach(edu => {
+                    educationHTML += `
+                        <div style="margin-bottom:10px;">
+                            <div class="item-title"><span>${edu.title}</span> <span>${edu.year}</span></div>
+                            <div class="item-org">${edu.org}</div>
+                            <div class="item-desc">${edu.desc}</div>
+                        </div>`;
+                });
+            }
+
+            let certificationsHTML = '';
+            if(data.certifications.length > 0) {
+                certificationsHTML += `<ul class="certs-list">`;
+                data.certifications.forEach(c => certificationsHTML += `<li>📜 ${c}</li>`);
+                certificationsHTML += `</ul>`;
+            }
+
             if (selectedTemplate === 'tmpl-ats-classic') {
                 htmlContext += `<div class="cv-body" style="font-size: ${bodySize};">`;
                 if(data.about) htmlContext += `<h3 style="font-size: ${headerSize};">الخلاصة المهنية</h3><p class="item-desc">${data.about}</p>`;
-                if(data.experience.length > 0) {
-                    htmlContext += `<h3 style="font-size: ${headerSize};">الخبرات المهنية والتاريخ الوظيفي</h3>`;
-                    data.experience.forEach(exp => {
-                        htmlContext += `
-                            <div style="margin-bottom:12px;">
-                                <div class="item-title"><span>${exp.title}</span> <span>${exp.year}</span></div>
-                                <div class="item-org">${exp.org}</div>
-                                <div class="item-desc">${exp.desc}</div>
-                            </div>`;
-                    });
-                }
-                if(data.education.length > 0) {
-                    htmlContext += `<h3 style="font-size: ${headerSize};">التعليم والمؤهلات الأكاديمية</h3>`;
-                    data.education.forEach(edu => {
-                        htmlContext += `
-                            <div style="margin-bottom:10px;">
-                                <div class="item-title"><span>${edu.title}</span> <span>${edu.year}</span></div>
-                                <div class="item-org">${edu.org}</div>
-                                <div class="item-desc">${edu.desc}</div>
-                            </div>`;
-                    });
-                }
+                if(experienceHTML) htmlContext += `<h3 style="font-size: ${headerSize};">الخبرات المهنية والتاريخ الوظيفي</h3>` + experienceHTML;
+                if(educationHTML) htmlContext += `<h3 style="font-size: ${headerSize};">التعليم والمؤهلات الأكاديمية</h3>` + educationHTML;
                 if(data.skills.length > 0) {
                     htmlContext += `<h3 style="font-size: ${headerSize};">المهارات والقدرات التقنية</h3><ul class="skills-list">`;
                     data.skills.forEach(s => htmlContext += `<li>${s}</li>`);
                     htmlContext += `</ul>`;
                 }
+                if(certificationsHTML) htmlContext += `<h3 style="font-size: ${headerSize};">الدورات والشهادات التدريبية</h3>` + certificationsHTML;
                 htmlContext += `</div>`;
             } else if (selectedTemplate === 'tmpl-dark-brown' || selectedTemplate === 'tmpl-gray-gold') {
                 htmlContext += `<div class="cv-body" style="font-size: ${bodySize};"><div class="left-col">`;
@@ -762,24 +745,17 @@
                     data.skills.forEach(s => htmlContext += `<li>${s}</li>`);
                     htmlContext += `</ul>`;
                 }
+                if(certificationsHTML) htmlContext += `<h3 style="font-size: ${headerSize};">الشهادات والدورات</h3>` + certificationsHTML;
                 htmlContext += `</div><div class="main-col">`;
                 if(data.about) htmlContext += `<h3 style="font-size: ${headerSize};">نبذة عني</h3><p class="item-desc">${data.about}</p>`;
-                if(data.experience.length > 0) {
-                    htmlContext += `<h3 style="font-size: ${headerSize};">الخبرات المهنية</h3>`;
-                    data.experience.forEach(exp => {
-                        htmlContext += `<div><div class="item-title">${exp.title}</div><div class="item-org">${exp.org} | ${exp.year}</div><div class="item-desc">${exp.desc}</div></div>`;
-                    });
-                }
+                if(experienceHTML) htmlContext += `<h3 style="font-size: ${headerSize};">الخبرات المهنية</h3>` + experienceHTML;
+                if(educationHTML) htmlContext += `<h3 style="font-size: ${headerSize};">التعليم والأكاديمية</h3>` + educationHTML;
                 htmlContext += `</div></div>`;
             } else {
                 htmlContext += `<div class="cv-body" style="font-size: ${bodySize};"><div class="main-col">`;
                 if(data.about) htmlContext += `<h3 style="font-size: ${headerSize};">الملخص الشخصي</h3><p class="item-desc">${data.about}</p>`;
-                if(data.experience.length > 0) {
-                    htmlContext += `<h3 style="font-size: ${headerSize};">التاريخ المهني</h3>`;
-                    data.experience.forEach(exp => {
-                        htmlContext += `<div><div class="item-title">${exp.title}</div><div class="item-org">${exp.org} (${exp.year})</div><div class="item-desc">${exp.desc}</div></div>`;
-                    });
-                }
+                if(experienceHTML) htmlContext += `<h3 style="font-size: ${headerSize};">التاريخ المهني</h3>` + experienceHTML;
+                if(educationHTML) htmlContext += `<h3 style="font-size: ${headerSize};">التعليم الأكاديمي</h3>` + educationHTML;
                 htmlContext += `</div><div class="right-col">`;
                 htmlContext += `<h3 style="font-size: ${headerSize};">معلومات الاتصال</h3>` + contactInfoHTML;
                 if(data.skills.length > 0) {
@@ -787,6 +763,7 @@
                     data.skills.forEach(s => htmlContext += `<li>✔ ${s}</li>`);
                     htmlContext += `</ul>`;
                 }
+                if(certificationsHTML) htmlContext += `<h3 style="font-size: ${headerSize};">الدورات التدريبية</h3>` + certificationsHTML;
                 htmlContext += `</div></div>`;
             }
 
@@ -942,9 +919,12 @@
                     alert('فشل الإرسال: ' + result.description);
                 }
             } catch (err) {
-                alert('حدث خطأ اتصال أثناء المعالجة .');
+                alert('حدث خطأ اتصال أثناء المعالجة.');
             }
         }
+
+        // دالة مساعدة لعمل تأخير صغير لضمان تحديث الـ DOM
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
 
         async function exportPDF(transactionId, clientContact, deliveryMethod) {
             const overlay = document.getElementById('loadingOverlay');
@@ -953,13 +933,30 @@
             overlay.classList.add('active');
             protection.style.display = 'none'; 
             
+            // الانتظار للتأكد أن المتصفح أخفى طبقة الحماية تماماً من الشاشة
+            await sleep(250);
+            
             try {
                 const element = document.getElementById('cv-preview');
-                const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
-                const imgData = canvas.toDataURL('image/png');
                 
+                // تثبيت عرض التقاط ثابت يطابق حجم الـ A4 القياسي بالبكسل لمنع الاقتطاع على الهواتف
+                const canvas = await html2canvas(element, { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    width: 794, // 210mm بـ دقة البكسل المقابلة
+                    windowWidth: 794
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
                 const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-                pdf.addImage(imgData, 'PNG', 0, 0, 210, (canvas.height * 210) / canvas.width);
+                
+                // حساب الارتفاع ليتناسب تماماً مع نسبة الـ A4
+                const imgWidth = 210;
+                const pageHeight = 297;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
                 
                 const fileName = `السيرة_الذاتية_${data.name}.pdf`;
                 const pdfBlob = pdf.output('blob');
@@ -969,22 +966,29 @@
                 
                 await sendFileToTelegram(pdfBlob, fileName, captionText);
             } catch (error) {
-                alert('خطأ فني: ' + error);
+                alert('خطأ فني أثناء تصدير الـ PDF: ' + error);
             } finally {
                 protection.style.display = 'grid'; 
                 overlay.classList.remove('active');
             }
         }
 
-        function exportImage(transactionId, clientContact, deliveryMethod) {
+        async function exportImage(transactionId, clientContact, deliveryMethod) {
             const overlay = document.getElementById('loadingOverlay');
             const protection = document.getElementById('protectionOverlay');
             
             overlay.classList.add('active');
             protection.style.display = 'none'; 
             
+            await sleep(250);
+            
             const element = document.getElementById('cv-preview');
-            html2canvas(element, { scale: 2, useCORS: true }).then(async canvas => {
+            html2canvas(element, { 
+                scale: 2, 
+                useCORS: true,
+                width: 794,
+                windowWidth: 794
+            }).then(async canvas => {
                 const fileName = `السيرة_الذاتية_${data.name}.png`;
                 canvas.toBlob(async (blob) => {
                     if (blob) {
@@ -996,7 +1000,8 @@
                         overlay.classList.remove('active');
                     }
                 }, 'image/png');
-            }).catch(() => {
+            }).catch((err) => {
+                alert('خطأ فني أثناء تصدير الصورة: ' + err);
                 protection.style.display = 'grid';
                 overlay.classList.remove('active');
             });
