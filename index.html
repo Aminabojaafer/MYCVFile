@@ -276,40 +276,6 @@
             user-select: none;
         }
 
-        /* ===== شاشة نافذة الدفع المحدثة والممركزة تماماً ===== */
-        .payment-modal {
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100vw; 
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.7); 
-            z-index: 9998; 
-            justify-content: center; 
-            align-items: center;
-            padding: 15px;
-            box-sizing: border-box;
-        }
-        
-        .payment-modal.active { 
-            display: flex !important; 
-        }
-        
-        .modal-content {
-            background: white; 
-            padding: 20px; 
-            border-radius: 16px; 
-            max-width: 480px; 
-            width: 100%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); 
-            text-align: center; 
-            animation: fadeIn 0.3s ease;
-            max-height: 90vh; 
-            overflow-y: auto;
-            margin: auto; 
-        }
-
         /* ===== كود القوالب والتصاميم البصرية ===== */
         .tmpl-blue-white .header-section {
             background: #2b6cb0; color: white; padding: 40px;
@@ -372,6 +338,17 @@
         .spinner { width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #2d6a4f; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;}
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        .payment-modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.7); z-index: 9998; justify-content: center; align-items: center;
+            padding: 15px;
+        }
+        .payment-modal.active { display: flex; }
+        .modal-content {
+            background: white; padding: 20px; border-radius: 16px; max-width: 480px; width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3); text-align: center; animation: fadeIn 0.3s ease;
+            max-height: 90vh; overflow-y: auto;
+        }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         .modal-content h3 { color: #1a1a2e; margin-bottom: 10px; font-size: 18px; border-bottom: 2px solid #2a9d8f; padding-bottom: 8px;}
         .qr-img { max-width: 100%; width: 190px; height: auto; margin: 15px auto; display: block; border: 1px solid #e0e0e0; border-radius: 8px; padding: 5px; }
@@ -593,7 +570,7 @@
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
-                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة一眼 ❌</span>
+                        <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                         <span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span><span>للمعاينة فقط ❌</span>
                     </div>
                     
@@ -716,6 +693,7 @@
                 </div>
             `;
 
+            // البناء الديناميكي للمحتوى المشترك لضمان حقن مصفوفة (التعليم والدورات) بكل النماذج
             let experienceHTML = '';
             if(data.experience.length > 0) {
                 data.experience.forEach(exp => {
@@ -945,6 +923,7 @@
             }
         }
 
+        // دالة مساعدة لعمل تأخير صغير لضمان تحديث الـ DOM
         const sleep = ms => new Promise(r => setTimeout(r, ms));
 
         async function exportPDF(transactionId, clientContact, deliveryMethod) {
@@ -954,23 +933,27 @@
             overlay.classList.add('active');
             protection.style.display = 'none'; 
             
+            // الانتظار للتأكد أن المتصفح أخفى طبقة الحماية تماماً من الشاشة
             await sleep(250);
             
             try {
                 const element = document.getElementById('cv-preview');
                 
+                // تثبيت عرض التقاط ثابت يطابق حجم الـ A4 القياسي بالبكسل لمنع الاقتطاع على الهواتف
                 const canvas = await html2canvas(element, { 
                     scale: 2, 
                     useCORS: true, 
                     backgroundColor: '#ffffff',
-                    width: 794, 
+                    width: 794, // 210mm بـ دقة البكسل المقابلة
                     windowWidth: 794
                 });
                 
                 const imgData = canvas.toDataURL('image/png');
                 const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
                 
+                // حساب الارتفاع ليتناسب تماماً مع نسبة الـ A4
                 const imgWidth = 210;
+                const pageHeight = 297;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
                 
                 pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
