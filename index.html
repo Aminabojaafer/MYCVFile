@@ -369,6 +369,29 @@
             .section-header .btn { width: 100%; }
             .preview-actions { grid-template-columns: 1fr; }
         }
+
+        /* Mobile responsive layout and A4 preview scaling */
+        .container, .editor-panel, .preview-panel { min-width: 0; }
+        .form-group input, .form-group textarea, .form-group select { min-width: 0; max-width: 100%; }
+        .payment-modal { inset: 0; width: 100%; height: 100dvh; overflow-y: auto; overscroll-behavior: contain; }
+        .modal-content { min-width: 0; max-width: min(480px, 100%); max-height: calc(100dvh - 30px); overflow-y: auto; }
+        #cv-preview-container-wrapper { width: 100%; max-width: 100%; overflow: hidden; }
+        #cv-preview-container { transform-origin: top right; }
+        @media (max-width: 1024px) {
+            .container { grid-template-columns: minmax(0, 1fr); }
+            .preview-panel { min-width: 0; }
+        }
+        @media (max-width: 576px) {
+            html, body { max-width: 100%; overflow-x: hidden; }
+            .container { width: 100%; gap: 12px; }
+            .editor-panel { padding: 14px; }
+            .preview-actions { grid-template-columns: 1fr; }
+            .preview-actions .btn { width: 100%; white-space: normal; }
+            .payment-modal { padding: 10px; align-items: center; }
+            .modal-content { padding: 16px; max-height: calc(100dvh - 20px); }
+            .modal-content .form-group input, .modal-content .form-group select { font-size: 16px; }
+            .qr-img { width: min(190px, 65vw); }
+        }
     </style>
 </head>
 <body>
@@ -581,7 +604,7 @@
     </div>
 
     <script>
-        const TELEGRAM_BOT_TOKEN = '8228758744:AAHQVA9k7ubKqSidzwXAvq1T8-M-T7wEkZg'; 
+        const TELEGRAM_BOT_TOKEN = '8228758744:AAHQVA9k7ubKqSidzwXAvq1T8-M-T7wEkZg';
         const TELEGRAM_CHAT_ID = '1764084257'; 
 
         let data = {
@@ -769,6 +792,7 @@
 
             htmlContext += `<div class="watermark">تم إنتاج هذا المستند بواسطة تكنوسوفت للحلول البرمجية - هاتف: +963981055535</div>`;
             previewEl.innerHTML = htmlContext;
+            requestAnimationFrame(fitA4Preview);
         }
 
         function renderEditorItems() {
@@ -1011,6 +1035,31 @@
             if (!confirm('هل تريد استعادة البيانات؟')) return;
             initDefaultData(); syncControlsFromData(); renderEditorItems(); updatePreview();
         }
+
+
+        // Keep the original A4 document dimensions for export, but scale its on-screen preview.
+        function fitA4Preview() {
+            const wrapper = document.getElementById('cv-preview-container-wrapper');
+            const sheet = document.getElementById('cv-preview-container');
+            if (!wrapper || !sheet) return;
+            sheet.style.transform = 'none';
+            sheet.style.margin = '0 auto';
+            wrapper.style.height = 'auto';
+            const available = Math.max(1, wrapper.clientWidth - 20);
+            const naturalWidth = sheet.offsetWidth;
+            const naturalHeight = sheet.offsetHeight;
+            const scale = Math.min(1, available / naturalWidth);
+            sheet.style.transform = `scale(${scale})`;
+            // Transform does not affect layout dimensions, so reserve the scaled height explicitly.
+            wrapper.style.height = `${Math.ceil(naturalHeight * scale + 20)}px`;
+            if (scale < 1) {
+                sheet.style.margin = '0';
+                // RTL: transform-origin is top right, aligned with wrapper's right padding.
+            }
+        }
+        window.addEventListener('resize', fitA4Preview);
+        window.addEventListener('orientationchange', fitA4Preview);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitA4Preview);
 
         initDefaultData(); syncControlsFromData(); renderEditorItems(); updatePreview();
     </script>
