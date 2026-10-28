@@ -370,6 +370,12 @@
             .preview-actions { grid-template-columns: 1fr; }
         }
 
+        /* Preserve natural A4 typography while only scaling the visual preview. */
+        #cv-preview { overflow-wrap: anywhere; }
+        #cv-preview .header-info-block, #cv-preview .main-col, #cv-preview .left-col, #cv-preview .right-col { min-width: 0; }
+        #cv-preview .item-title { gap: 12px; align-items: baseline; }
+        #cv-preview .item-title span:first-child { min-width: 0; }
+        #cv-preview .item-title span:last-child { flex-shrink: 0; }
         /* Mobile responsive layout and A4 preview scaling */
         .container, .editor-panel, .preview-panel { min-width: 0; }
         .form-group input, .form-group textarea, .form-group select { min-width: 0; max-width: 100%; }
@@ -609,7 +615,7 @@
 
         let data = {
             name: '', title: '', email: '', phone: '', location: '', about: '',
-            profileImage: 'https://via.placeholder.com/150',
+            profileImage: '',
             experience: [], education: [], skills: [], certifications: []
         };
 
@@ -793,6 +799,7 @@
             htmlContext += `<div class="watermark">تم إنتاج هذا المستند بواسطة تكنوسوفت للحلول البرمجية - هاتف: +963981055535</div>`;
             previewEl.innerHTML = htmlContext;
             requestAnimationFrame(fitA4Preview);
+            requestAnimationFrame(fitA4Preview);
         }
 
         function renderEditorItems() {
@@ -950,85 +957,64 @@
         // دالة مساعدة لعمل تأخير صغير لضمان تحديث الـ DOM
         const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+        // Capture a detached, full-width A4 clone, unaffected by mobile preview scaling.
+        async function captureA4() {
+            const original = document.getElementById('cv-preview');
+            const clone = original.cloneNode(true);
+            const stage = document.createElement('div');
+            stage.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;overflow:visible;z-index:-1;';
+            clone.style.cssText += ';width:794px;min-height:1123px;transform:none!important;max-width:none!important;';
+            stage.appendChild(clone);
+            document.body.appendChild(stage);
+            try {
+                if (document.fonts && document.fonts.ready) await document.fonts.ready;
+                await Promise.all(Array.from(clone.querySelectorAll('img')).map(img => {
+                    if (img.complete) return Promise.resolve();
+                    return new Promise(resolve => { img.onload = resolve; img.onerror = resolve; });
+                }));
+                return await html2canvas(clone, {
+                    scale: 2, useCORS: true, backgroundColor: '#ffffff',
+                    windowWidth: 1200, scrollX: 0, scrollY: 0,
+                    width: 794, height: Math.max(1123, clone.scrollHeight)
+                });
+            } finally { stage.remove(); }
+        }
+
         async function exportPDF(transactionId, clientContact, deliveryMethod) {
             const overlay = document.getElementById('loadingOverlay');
-            const protection = document.getElementById('protectionOverlay');
-            
             overlay.classList.add('active');
-            protection.style.display = 'none'; 
-            
-            // الانتظار للتأكد أن المتصفح أخفى طبقة الحماية تماماً من الشاشة
-            await sleep(250);
-            
             try {
-                const element = document.getElementById('cv-preview');
-                
-                // تثبيت عرض التقاط ثابت يطابق حجم الـ A4 القياسي بالبكسل لمنع الاقتطاع على الهواتف
-                const canvas = await html2canvas(element, { 
-                    scale: 2, 
-                    useCORS: true, 
-                    backgroundColor: '#ffffff',
-                    width: 794, // 210mm بـ دقة البكسل المقابلة
-                    windowWidth: 794
-                });
-                
-                const imgData = canvas.toDataURL('image/png');
+                const canvas = await captureA4();
                 const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-                
-                // حساب الارتفاع ليتناسب تماماً مع نسبة الـ A4
-                const imgWidth = 210;
-                const pageHeight = 297;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                
+                const image = canvas.toDataURL('image/png');
+                const imgHeight = canvas.height * 210 / canvas.width;
+                // Preserve aspect ratio and create further pages if content exceeds A4.
+                for (let offset = 0, page = 0; offset < imgHeight; offset += 297, page++) {
+                    if (page) pdf.addPage();
+                    pdf.addImage(image, 'PNG', 0, -offset, 210, imgHeight);
+                }
                 const fileName = `السيرة_الذاتية_${data.name}.pdf`;
-                const pdfBlob = pdf.output('blob');
-
-                const contactLabel = deliveryMethod === 'واتساب' ? "🟢 واتساب العميل" : "📧 بريد العميل";
+                const contactLabel = deliveryMethod === 'واتساب' ? '🟢 واتساب العميل' : '📧 بريد العميل';
                 const captionText = `💰 [طلب جديد - الشام كاش]\n👤 اسم العميل: ${data.name}\n🔢 رقم العملية: ${transactionId}\n${contactLabel}: ${clientContact}\n📬 وسيلة الاستلام المفضلة: ${deliveryMethod}\n📄 النوع: PDF`;
-                
-                await sendFileToTelegram(pdfBlob, fileName, captionText);
+                await sendFileToTelegram(pdf.output('blob'), fileName, captionText);
             } catch (error) {
-                alert('خطأ فني أثناء تصدير الـ PDF: ' + error);
-            } finally {
-                protection.style.display = 'grid'; 
-                overlay.classList.remove('active');
-            }
+                alert('خطأ فني أثناء تصدير PDF: ' + error);
+            } finally { overlay.classList.remove('active'); }
         }
 
         async function exportImage(transactionId, clientContact, deliveryMethod) {
             const overlay = document.getElementById('loadingOverlay');
-            const protection = document.getElementById('protectionOverlay');
-            
             overlay.classList.add('active');
-            protection.style.display = 'none'; 
-            
-            await sleep(250);
-            
-            const element = document.getElementById('cv-preview');
-            html2canvas(element, { 
-                scale: 2, 
-                useCORS: true,
-                width: 794,
-                windowWidth: 794
-            }).then(async canvas => {
-                const fileName = `السيرة_الذاتية_${data.name}.png`;
-                canvas.toBlob(async (blob) => {
-                    if (blob) {
-                        const contactLabel = deliveryMethod === 'واتساب' ? "🟢 واتساب العميل" : "📧 بريد العميل";
-                        const captionText = `💰 [طلب جديد - الشام كاش]\n👤 اسم العميل: ${data.name}\n🔢 رقم العملية: ${transactionId}\n${contactLabel}: ${clientContact}\n📬 وسيلة الاستلام المفضلة: ${deliveryMethod}\n🖼️ النوع: صورة PNG`;
-                        
-                        await sendFileToTelegram(blob, fileName, captionText);
-                        protection.style.display = 'grid'; 
-                        overlay.classList.remove('active');
-                    }
-                }, 'image/png');
-            }).catch((err) => {
-                alert('خطأ فني أثناء تصدير الصورة: ' + err);
-                protection.style.display = 'grid';
-                overlay.classList.remove('active');
-            });
+            try {
+                const canvas = await captureA4();
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                if (!blob) throw new Error('تعذر إنشاء الصورة');
+                const contactLabel = deliveryMethod === 'واتساب' ? '🟢 واتساب العميل' : '📧 بريد العميل';
+                const captionText = `💰 [طلب جديد - الشام كاش]\n👤 اسم العميل: ${data.name}\n🔢 رقم العملية: ${transactionId}\n${contactLabel}: ${clientContact}\n📬 وسيلة الاستلام المفضلة: ${deliveryMethod}\n🖼️ النوع: صورة PNG`;
+                await sendFileToTelegram(blob, `السيرة_الذاتية_${data.name}.png`, captionText);
+            } catch (error) {
+                alert('خطأ فني أثناء تصدير الصورة: ' + error);
+            } finally { overlay.classList.remove('active'); }
         }
 
         function resetAll() {
